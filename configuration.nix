@@ -9,6 +9,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./happ-nixos/happ-module.nix
     ];
 
   # Bootloader.
@@ -50,6 +51,9 @@
   # You can disable this if you're only using the Wayland session.
   services.xserver.enable = true;
 
+
+  services.happ.enable = true;
+
   # Enable the KDE Plasma Desktop Environment.
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
@@ -86,7 +90,7 @@
   users.users.xwellames = {
     isNormalUser = true;
     description = "Xwellames";
-    extraGroups = [ "networkmanager" "wheel" "adbusers" ]; # Added adbusers here
+    extraGroups = [ "networkmanager" "wheel" "adbusers" "docker"]; # Added adbusers here
     packages = with pkgs; [
       kdePackages.kate
     #  thunderbird
@@ -143,6 +147,8 @@
     github-desktop
     nodejs
     vlc
+    blender
+    kiro-cli
     hydralauncher
     gnome-boxes
     wine
@@ -206,23 +212,25 @@
     stdenv.cc.cc
   ];
 
- 
+  # docker
+  virtualisation.docker.enable = true;
+
   # agents
   programs.gnupg.agent.enable = true;
-  
+
 
   # aaaaaaaa demons rage computer dr dr dr boom kabam
   virtualisation.libvirtd.enable = true;
   virtualisation.spiceUSBRedirection.enable = true;
 
 
-  # holy music bluetooth on 
+  # holy music bluetooth on
   hardware.bluetooth.enable = true;
-  hardware.bluetooth.powerOnBoot = true; 
+  hardware.bluetooth.powerOnBoot = true;
 
   # Optional but recommended for audio/headsets:
   services.blueman.enable = true;
- 
+
   # flatHUB
   services.flatpak.enable = true;
 
@@ -249,8 +257,8 @@
 
 
   # UhWall
-  networking.firewall.allowedTCPPorts = [ 57621 25575 ];
-  networking.firewall.allowedUDPPorts = [ 5353 25575 ];
+  networking.firewall.allowedTCPPorts = [ 57621 25575 1234];
+  networking.firewall.allowedUDPPorts = [ 5353 25575 1234];
 
   # deamons
   programs.amnezia-vpn.enable = true;
